@@ -3,9 +3,11 @@ class CreateAuthentications < ActiveRecord::Migration
     create_table :authentications do |t|
       t.string :provider
       t.string :uid
-      t.references :user, index: true, foreign_key: true
+      t.references :user, foreign_key: true
 
       t.timestamps null: false
     end
+
+    add_index :user, unique: true
   end
 end
