@@ -1,0 +1,5 @@
+div.container {
+  @include outer-container;
+  @include span-columns(8);
+  @include shift(2);
+}
