@@ -1,16 +1,10 @@
 Rails.application.routes.draw do
-
-  get 'control_panel/index'
-
-  get 'control_panel/new'
-
-  get 'control_panel/create'
-
-  get 'control_panel/destroy'
-
   get "/auth/:provider/callback" => "authentications#create"
   devise_for :users
   resources :authentications
+
+  get 'admin' => 'control_panel#index', :as => :admin
+  resource :control_panel, only: [:index, :new, :create, :destroy]
   root 'test#index'
 
 end
