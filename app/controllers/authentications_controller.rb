@@ -25,12 +25,16 @@ class AuthenticationsController < ApplicationController
                                            :token => omniauth['credentials']['token'],
                                            :expires => false,
                                            :expires_at => nil)
+        current_user.name = omniauth['extra']['raw_info']['name']
+        current_user.save!
       elsif omniauth['provider'] == 'square'
         current_user.create_authentication(:provider => omniauth['provider'],
                                            :uid => omniauth['uid'],
                                            :token => omniauth['credentials']['token'],
                                            :expires_at => Time.at(omniauth['credentials']['expires_at']).to_datetime,
                                            :expires => omniauth['credentials']['expires'])
+        current_user.name = omniauth['extra']['raw_info']['name']
+        current_user.save!
       end
 
       # Move auth creation to model
