@@ -21,7 +21,7 @@ class DevicesController < ApplicationController
 
   # POST /devices
   def create
-    @device = Device.new(device_params)
+    @device = current_user.devices.build(device_params)
 
     if @device.save
       redirect_to @device, notice: 'Device was successfully created.'
