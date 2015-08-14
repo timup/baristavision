@@ -5,6 +5,6 @@ Rails.application.routes.draw do
 
   get 'admin' => 'control_panel#index', :as => :admin
   resource :control_panel, only: [:index, :new, :create, :destroy]
-  root 'test#index'
+  root 'control_panel#index'
 
 end
