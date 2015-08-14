@@ -3,7 +3,7 @@ class CreateDevices < ActiveRecord::Migration
     create_table :devices do |t|
       t.string :name
       t.text :description
-      t.text :items
+      t.text :items, array: true, default: []
       t.references :user, index: true, foreign_key: true
 
       t.timestamps null: false
