@@ -2,4 +2,11 @@
 
 <h3>Welcome, <%= current_user.name %></h3>
 
-<p>You are using: <%= current_user.authentication.provider %>.</p>
+<p>You are using: <%= current_user.try(:authentication).try(:provider) || "Please Re-Authenticate Using Clover or Square" %>.</p>
+
+<% if current_user.authentication %>
+  <%= link_to "Destroy Authentication", current_user.authentication, :confirm => 'Are you sure you want to remove this authentication option?', :method => :delete %>
+<% else %>
+  <%= link_to "Clover Authentication", "/auth/clover" %><br>
+  <%= link_to "Square Authentication", "/auth/square" %>
+<% end %>

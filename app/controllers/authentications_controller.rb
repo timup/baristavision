@@ -25,7 +25,7 @@ class AuthenticationsController < ApplicationController
                                            :token => omniauth['credentials']['token'],
                                            :expires => false,
                                            :expires_at => nil)
-        current_user.name = omniauth['extra']['raw_info']['name']
+        current_user.name = omniauth['info']['name']
         current_user.save!
       elsif omniauth['provider'] == 'square'
         current_user.create_authentication(:provider => omniauth['provider'],
@@ -41,12 +41,16 @@ class AuthenticationsController < ApplicationController
       # ---------------------------------------------------
       # current_user.authentication.create_from_omniauth(omniauth)
       flash[:notice] = "Authentication successful."
-      redirect_to root_url
+      redirect_to admin_url
     else
       redirect_to new_user_registration_url
     end
   end
 
   def destroy
+    @authentication = current_user.authentication
+    @authentication.destroy
+    flash[:notice] = "Successfully destroyed authentication."
+    redirect_to admin_url
   end
 end
