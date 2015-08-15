@@ -324,6 +324,7 @@ DEPENDENCIES
   factory_girl_rails
   flutie
   formulaic
+  hashie
   high_voltage
   httparty
   i18n-tasks

@@ -1,6 +1,8 @@
 class ControlPanelController < ApplicationController
   def index
-    @devices = current_user.devices
+    if current_user
+      @devices = current_user.devices
+    end
   end
 
   def new
