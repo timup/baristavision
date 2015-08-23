@@ -10,6 +10,17 @@ module Api
       @merchant_id = merchant_id
     end
 
+    def line_items(order_id)
+      response = query({
+        :endpoint => "/v3/merchants/#{@merchant_id}/orders/#{order_id}/line_items",
+        :method => :GET,
+        :params => {
+          :access_token => @access_token
+        }
+        })
+      response = response.elements
+    end
+
     def order(order_id)
       response = query({
         :endpoint => "/v3/merchants/#{@merchant_id}/orders/#{order_id}",
@@ -21,7 +32,6 @@ module Api
     end
 
     def orders
-      orders = []
       response = query({
         :endpoint => "/v3/merchants/#{@merchant_id}/orders",
         :method => :GET,
@@ -47,7 +57,10 @@ module Api
 
     def query opts
       method   = opts[:method].to_s.downcase
-      response = self.class.send(method, opts[:endpoint], query: opts[:params])
+      options  = {query: opts[:params],
+                  headers: opts[:headers],
+                  body: opts[:body]}
+      response = self.class.send(method, opts[:endpoint], options)
       data     = response.parsed_response
 
       if response.success?
@@ -59,6 +72,55 @@ module Api
       else
         nil
       end
+    end
+
+    # ------------------------------- #
+    # methods for clover testing
+    # ------------------------------- #
+    def test_add_line_item(order_id)
+      items = Item.all
+      response = query({
+        :endpoint => "/v3/merchants/#{@merchant_id}/orders/#{order_id}/line_items",
+        :method => :POST,
+        :params => {
+          :access_token => @access_token
+        },
+        :headers => {
+          'Content-Type' => 'application/json'
+        },
+        :body => {
+          :item => {
+            :id => "#{items.shuffle.first.item_id}"
+            }
+        }.to_json
+        })
+    end
+
+    def test_add_order
+      response = query({
+        :endpoint => "/v3/merchants/#{@merchant_id}/orders",
+        :method => :POST,
+        :params => {
+          :access_token => @access_token
+        },
+        :headers => {
+          'Content-Type' => 'application/json'
+        },
+        :body => {
+          :title => "Order - #{Time.now}",
+          :state => "OPEN"
+        }.to_json
+        })
+    end
+
+    def test_delete_order(order_id)
+      response = query({
+        :endpoint => "/v3/merchants/#{@merchant_id}/items",
+        :method => :GET,
+        :params => {
+          :access_token => @access_token
+          }
+        })
     end
 
     private

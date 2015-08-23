@@ -23,6 +23,25 @@ module Api
     #   end
     # end
 
+    # method to sync all merchant line items to line_items table
+    def sync_line_items
+      sync_orders
+      orders = Order.where(user_id: @authentication.user.id)
+      orders.each do |order|
+        line_items = @connect.line_items(order.id)
+        if line_items
+          line_items.each do |line_item|
+            li = LineItem.where(:line_item_id => line_item.id,
+                                :name => line_item.name,
+                                :user_id => @authentication.user.id).first_or_initialize
+            li.name = line_item.name
+            li.user_id = @authentication.user.id
+            li.save!
+          end
+        end
+      end
+    end
+
     # method to sync all merchant orders to order table
     def sync_orders
       #orders array from api call
