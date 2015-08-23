@@ -10,6 +10,9 @@ module Api
       @merchant_id = merchant_id
     end
 
+    def orders
+    end
+
     def items
       response = query({
       :endpoint => "/v3/merchants/#{@merchant_id}/items",
@@ -18,6 +21,8 @@ module Api
         :access_token => @access_token
         }
       })
+      response = response.elements
+      # returns an array of item hashes.
     end
 
     def query opts
