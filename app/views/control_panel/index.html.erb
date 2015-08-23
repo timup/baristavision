@@ -12,6 +12,19 @@
 <% end %>
 
 <table>
+  <tbody>
+    <% @items.each do |item| %>
+      <tr>
+        <td><%= item.name %></td>
+        <td><%= item.item_id %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+
+<h1>User Devices</h1>
+<table>
   <thead>
     <tr>
       <th>Name</th>

@@ -12,7 +12,6 @@ module Api
       elsif @provider == "square"
         @connect = Api::Square.new()
       end
-
     end
 
     # initialize api connection
@@ -25,7 +24,7 @@ module Api
     # end
 
     # method to sync all merchant orders to order table
-    def self.sync_orders
+    def sync_orders
       response = @connect.orders
       if response
         orders = response

@@ -2,6 +2,7 @@ class ControlPanelController < ApplicationController
   def index
     if current_user
       @devices = current_user.devices
+      @items = current_user.items
     end
   end
 

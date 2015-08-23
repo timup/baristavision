@@ -10,7 +10,27 @@ module Api
       @merchant_id = merchant_id
     end
 
+    def order(order_id)
+      response = query({
+        :endpoint => "/v3/merchants/#{@merchant_id}/orders/#{order_id}",
+        :method => :GET,
+        :params => {
+          :access_token => @access_token
+        }
+        })
+    end
+
     def orders
+      orders = []
+      response = query({
+        :endpoint => "/v3/merchants/#{@merchant_id}/orders",
+        :method => :GET,
+        :params => {
+          :access_token => @access_token
+          }
+        })
+        response = response.elements
+      # returns an array of order hashes
     end
 
     def items
@@ -22,7 +42,7 @@ module Api
         }
       })
       response = response.elements
-      # returns an array of item hashes.
+      # returns an array of item hashes
     end
 
     def query opts
