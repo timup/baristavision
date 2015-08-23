@@ -1,15 +1,13 @@
-module Clover
-  class Base
+module Api
+  class Clover
 
     include HTTParty
+
+    base_uri Api::Config.clover_url
 
     def initialize(access_token, merchant_id)
       @access_token = access_token
       @merchant_id = merchant_id
-    end
-
-    def merchant
-      response = self.class.get("/v3/merchants/#{@merchant_id}", query: {:access_token => "#{@access_token}"})
     end
 
     def items

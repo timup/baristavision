@@ -19,6 +19,8 @@ module Square
       end
     end
 
+    private
+
     def convert_to_mash data
       if data.is_a? Hash
         Hashie::Mash.new(data)
