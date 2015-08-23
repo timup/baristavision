@@ -25,12 +25,14 @@ module Api
 
     # method to sync all merchant orders to order table
     def sync_orders
-      response = @connect.orders
-      if response
-        orders = response
+      #orders array from api call
+      orders = @connect.orders
+      if orders
         orders.each do |order|
-          order = Order.find_or_create_by(order_id: order.order_id)
-          order.save!
+          o = Order.where(:order_id => order.id,
+                          :user_id => @authentication.user.id).first_or_initialize
+          o.user_id = @authentication.user.id
+          o.save!
         end
       end
     end
