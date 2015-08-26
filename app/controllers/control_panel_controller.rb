@@ -3,6 +3,7 @@ class ControlPanelController < ApplicationController
     if current_user
       @devices = current_user.devices
       @items = current_user.items
+      @orders = current_user.orders
     end
   end
 

@@ -18,7 +18,11 @@ module Api
           :access_token => @access_token
         }
         })
-      response = response.elements
+      if response == nil
+        response 
+      else
+        response = response.elements
+      end
     end
 
     def order(order_id)
@@ -70,7 +74,7 @@ module Api
           convert_to_mash(data)
         end
       else
-        nil
+        data = nil
       end
     end
 
@@ -115,8 +119,8 @@ module Api
 
     def test_delete_order(order_id)
       response = query({
-        :endpoint => "/v3/merchants/#{@merchant_id}/items",
-        :method => :GET,
+        :endpoint => "/v3/merchants/#{@merchant_id}/orders/#{order_id}",
+        :method => :DELETE,
         :params => {
           :access_token => @access_token
           }

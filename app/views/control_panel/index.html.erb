@@ -23,6 +23,7 @@
 </table>
 
 
+
 <h1>User Devices</h1>
 <table>
   <thead>
@@ -37,5 +38,17 @@
 
   <tbody>
     <%= render @devices %>
+  </tbody>
+</table>
+
+<h1>Orders</h1>
+<table>
+  <tbody>
+    <% @orders.each do |order| %>
+      <tr>
+        <td><%= order.name %></td>
+        <td><%= order.order_id %></td>
+      </tr>
+    <% end %>
   </tbody>
 </table>
