@@ -111,6 +111,6 @@ ActiveRecord::Schema.define(version: 20150823180111) do
   add_foreign_key "devices", "users"
   add_foreign_key "items", "users"
   add_foreign_key "line_items", "items"
-  add_foreign_key "line_items", "orders"
+  add_foreign_key "line_items", "orders", on_delete: :cascade
   add_foreign_key "orders", "users"
 end

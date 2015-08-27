@@ -31,17 +31,39 @@ module Api
       orders = Order.where(user_id: @authentication.user.id)
       orders.each do |order|
         line_items = @connect.line_items(order.order_id)
+        api_line_item_ids = []
         if line_items.present?
           line_items.each do |line_item|
             li = LineItem.where(:line_item_id => line_item.id).first_or_initialize
             i = Item.find_by(item_id: line_item.item.id)
+            li.line_item_id = line_item.id
             li.item_id = i.id
             li.order_id = order.id
             li.save!
+            api_line_item_ids << line_item.id
           end
         end
+
+        user_line_items = []
+        @user_order_ids.each do |order|
+          LineItem.where(order_id: order).each do |line_item|
+            user_line_items << line_item
+          end
+        end
+
+        user_line_item_ids = []
+        user_line_items.each do |line_item|
+          user_line_item_ids << line_item.line_item_id
+        end
+
+        remove_ids = user_line_item_ids - api_line_item_ids
+        remove_ids.each do |id|
+          LineItem.where(line_item_id: id).delete_all
+        end
+
       end
     end
+
 
     # method to sync all merchant orders to order table
     def sync_orders
@@ -52,6 +74,7 @@ module Api
         orders.each do |order|
           o = Order.where(:order_id => order.id,
                           :user_id => @authentication.user.id).first_or_initialize
+          o.order_id = order.id
           o.user_id = @authentication.user.id
           o.save!
           api_order_ids << order.id
@@ -59,13 +82,17 @@ module Api
       end
 
       user_orders = Order.where(user_id: @authentication.user.id)
-      user_order_ids = []
+      @user_order_ids = []
       user_orders.each do |order|
-        user_order_ids << order.order_id
+        @user_order_ids << order.order_id
       end
 
-      remove_ids = user_order_ids - api_order_ids
+      remove_ids = @user_order_ids - api_order_ids
       remove_ids.each do |id|
+        # first delete all line items associated with order
+        # Order.where(order_id: id).each do |order|
+        #   LineItem.where(order_id: order.order_id
+        # end
         Order.where(order_id: id).delete_all
       end
     end
