@@ -9,6 +9,21 @@ module Api
       @access_token = access_token
     end
 
+    # square 'itemizations'
+    def line_items(order_id)
+      response = query({
+        :endpoint => "/v1/me/payments/#{order_id}",
+        :method => :GET,
+        :params => {
+          :headers => {
+            "Authorization" => "Bearer #{@access_token}",
+            "Accept" => "application/json"
+          }
+        }
+        })
+        response = response.itemizations
+    end
+
     # square 'payments'
     def orders
       response = query({
@@ -53,6 +68,31 @@ module Api
       end
     end
 
+    # ------------------------------- #
+    # methods for square testing
+    # ------------------------------- #
+
+    def delete_order(order_id)
+      response = query({
+        :endpoint => "/v1/me/payments/#{order_id}",
+        :method => :DELETE,
+        :params => {
+          :headers => {
+             "Authorization" => "Bearer #{@access_token}",
+             "Accept" => "application/json"
+          }
+        }
+        })
+
+      if response.code == 200
+        puts 'Successfully deleted item'
+        return response.body
+      else
+        puts 'Item deletion failed'
+        return nil
+      end
+    end
+
     private
 
     def convert_to_mash data
@@ -62,6 +102,8 @@ module Api
         data.map { |d| Hashie::Mash.new(d) }
       end
     end
+
+
 
   end
 end
