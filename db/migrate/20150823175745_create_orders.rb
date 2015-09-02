@@ -1,7 +1,7 @@
 class CreateOrders < ActiveRecord::Migration
   def change
     create_table :orders do |t|
-      t.string :order_id
+      t.string :provider_order_id
       t.string :name
       t.references :user, index: true, foreign_key: true
 

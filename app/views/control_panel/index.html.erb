@@ -7,10 +7,12 @@
 <% if current_user.authentication %>
   <%= link_to "Destroy Authentication", current_user.authentication, :confirm => 'Are you sure you want to remove this authentication option?', :method => :delete %>
 <% else %>
-  <%= link_to "Clover Authentication", "/auth/clover" %><br>
+  <%= link_to "Clover Authentication", "/auth/clover" %><br />
   <%= link_to "Square Authentication", "/auth/square" %>
 <% end %>
 
+
+<h1>User Items</h1>
 <table>
   <tbody>
     <% @items.each do |item| %>
@@ -41,7 +43,8 @@
   </tbody>
 </table>
 
-<h1>Orders</h1>
+
+<h1>User Orders</h1>
 <table>
   <tbody>
     <% @orders.each do |order| %>
