@@ -30,6 +30,9 @@ module Api
         :endpoint => "/v1/me/payments",
         :method => :GET,
         :params => {
+          :default_params => {
+            :order => "ASC"
+          },
           :headers => {
              "Authorization" => "Bearer #{@access_token}",
              "Accept" => "application/json"
@@ -61,6 +64,7 @@ module Api
         if [ TrueClass, FalseClass, Fixnum ].include?(data.class)
           data
         else
+          puts response.request.inspect
           convert_to_mash(data)
         end
       else

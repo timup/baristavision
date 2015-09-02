@@ -16,6 +16,10 @@ module Api
       end
     end
 
+    def last_order
+      order = Order.where(user_id: @authentication.user.id).last
+    end
+
     # initialize api connection
     # def connect
     #   if @provider == "clover"
@@ -79,30 +83,30 @@ module Api
     def sync_orders
       #orders array from api call
       orders = @connect.orders
-      api_order_ids = []
+    #  api_order_ids = []
       if orders
         orders.each do |order|
           o = Order.where(:provider_order_id => order.id).first_or_initialize
           o.user_id = @authentication.user.id
           o.save!
-          api_order_ids << order.id
+        #  api_order_ids << order.id
         end
       end
 
-      user_orders = Order.where(user_id: @authentication.user.id)
-      @user_order_ids = []
-      user_orders.each do |order|
-        @user_order_ids << order.provider_order_id
-      end
-
-      remove_ids = @user_order_ids - api_order_ids
-      remove_ids.each do |id|
-        # first delete all line items associated with order
-        # Order.where(order_id: id).each do |order|
-        #   LineItem.where(order_id: order.order_id
-        # end
-        Order.where(provider_order_id: id).delete_all
-      end
+      # user_orders = Order.where(user_id: @authentication.user.id)
+      # @user_order_ids = []
+      # user_orders.each do |order|
+      #   @user_order_ids << order.provider_order_id
+      # end
+      #
+      # remove_ids = @user_order_ids - api_order_ids
+      # remove_ids.each do |id|
+      #   # first delete all line items associated with order
+      #   # Order.where(order_id: id).each do |order|
+      #   #   LineItem.where(order_id: order.order_id
+      #   # end
+      #   Order.where(provider_order_id: id).delete_all
+      # end
     end
 
     # Good to go: clover & square

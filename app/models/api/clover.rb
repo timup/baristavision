@@ -10,24 +10,36 @@ module Api
       @merchant_id = merchant_id
     end
 
-    def line_items(order_id)
+    def new_orders(last_order_time)
       response = query({
-        :endpoint => "/v3/merchants/#{@merchant_id}/orders/#{order_id}/line_items",
+        :endpoint => "/v3/merchants/#{@merchant_id}/orders",
+        :method => :GET,
+        :params => {
+          :access_token => @access_token,
+          :filter => "createdTime>=#{last_order_time}"
+          }
+        })
+      response = response.elements
+    end
+
+    def line_items(provider_order_id)
+      response = query({
+        :endpoint => "/v3/merchants/#{@merchant_id}/orders/#{provider_order_id}/line_items",
         :method => :GET,
         :params => {
           :access_token => @access_token
         }
         })
       if response == nil
-        response 
+        response
       else
         response = response.elements
       end
     end
 
-    def order(order_id)
+    def order(provider_order_id)
       response = query({
-        :endpoint => "/v3/merchants/#{@merchant_id}/orders/#{order_id}",
+        :endpoint => "/v3/merchants/#{@merchant_id}/orders/#{provider_order_id}",
         :method => :GET,
         :params => {
           :access_token => @access_token
@@ -40,10 +52,11 @@ module Api
         :endpoint => "/v3/merchants/#{@merchant_id}/orders",
         :method => :GET,
         :params => {
-          :access_token => @access_token
+          :access_token => @access_token,
+          :orderBy => "createdTime ASC"
           }
         })
-        response = response.elements
+      response = response.elements
       # returns an array of order hashes
     end
 
