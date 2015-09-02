@@ -18,7 +18,7 @@
     <% @items.each do |item| %>
       <tr>
         <td><%= item.name %></td>
-        <td><%= item.item_id %></td>
+        <td><%= item.provider_item_id %></td>
       </tr>
     <% end %>
   </tbody>
@@ -50,7 +50,7 @@
     <% @orders.each do |order| %>
       <tr>
         <td><%= order.name %></td>
-        <td><%= order.order_id %></td>
+        <td><%= order.provider_order_id %></td>
       </tr>
     <% end %>
   </tbody>
