@@ -1,3 +1,27 @@
-<h1>Test#index</h1>
+<h1>TEST</h1>
 
-<p><%= @payments.name %></p>
+<div class="line-item-cards">
+  <% @line_items.each do |line_item| %>
+    <div class="line-item-card">
+      <div class="line-item-card-content">
+        <h1><%= line_item.item.try(:name) || "Unnamed Line Item" %></h1>
+        <p class="line-item-card-detail"><%= line_item.provider_line_item_id %></p>
+      </div>
+      <div class="line-item-card-button">
+        <%= link_to 'X', "#" %>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+
+<div class="line-item-card">
+  <div class="line-item-card-button">
+    <img src="https://raw.githubusercontent.com/thoughtbot/refills/master/source/images/placeholder_logo_1.png" alt="Logo image">
+  </div>
+  <div class="line-item-card-content">
+    <h1>First Comment Title or Author</h1>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio, aspernatur, quia modi minima debitis tempora ducimus quam vero impedit alias earum nemo error tenetur sed.</p>
+    <p class="line-item-card-detail">Date or details about this post</p>
+  </div>
+</div>

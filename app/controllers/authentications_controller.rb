@@ -37,9 +37,10 @@ class AuthenticationsController < ApplicationController
         current_user.save!
       end
 
-      # Move auth creation to model
+      # Move auth creation to model?
       # ---------------------------------------------------
       # current_user.authentication.create_from_omniauth(omniauth)
+
       flash[:notice] = "Authentication successful."
       redirect_to admin_url
     else
@@ -50,6 +51,11 @@ class AuthenticationsController < ApplicationController
   def destroy
     @authentication = current_user.authentication
     @authentication.destroy
+    # Maybe destroy all relative User Items at this point....???
+    current_user.orders.each { |order| order.line_items.delete_all }
+    current_user.orders.delete_all
+    current_user.items.delete_all
+
     flash[:notice] = "Successfully destroyed authentication."
     redirect_to admin_url
   end

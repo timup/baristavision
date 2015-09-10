@@ -107,7 +107,7 @@ module Api
         },
         :body => {
           :item => {
-            :id => "#{items.shuffle.first.item_id}"
+            :id => "#{items.shuffle.first.provider_item_id}"
             }
         }.to_json
         })
