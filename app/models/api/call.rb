@@ -127,7 +127,7 @@ module Api
       # set array with all ids to be removed
       remove_ids = user_items_ids - api_item_ids
       remove_ids.each do |id|
-        Item.where(provder_item_id: id).delete_all
+        Item.where(provider_item_id: id).delete_all
       end
     end
 
