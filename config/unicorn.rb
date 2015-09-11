@@ -1,6 +1,6 @@
 # https://devcenter.heroku.com/articles/rails-unicorn
 
-worker_processes (ENV["UNICORN_WORKERS"] || 3).to_i
+worker_processes (ENV["UNICORN_WORKERS"] || 16).to_i
 timeout (ENV["UNICORN_TIMEOUT"] || 15).to_i
 preload_app true
 
@@ -24,7 +24,7 @@ after_fork do |_server, _worker|
     config = ActiveRecord::Base.configurations[Rails.env] ||
       Rails.application.config.database_configuration[Rails.env]
     config["reaping_frequency"] = (ENV["DB_REAPING_FREQUENCY"] || 10).to_i
-    config["pool"] = (ENV["DB_POOL"] || 2).to_i
+    config["pool"] = (ENV["DB_POOL"] || 16).to_i
     ActiveRecord::Base.establish_connection(config)
   end
 end

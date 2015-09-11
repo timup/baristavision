@@ -17,6 +17,7 @@ class DevicesController < ApplicationController
 
   # GET /devices/1/edit
   def edit
+    @items = Item.where(user_id: current_user.id).map{|item| item.name}
   end
 
   # POST /devices
@@ -53,6 +54,6 @@ class DevicesController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def device_params
-      params.require(:device).permit(:name, :description, :items, :user_id)
+      params.require(:device).permit(:name, :description, :user_id, items: [])
     end
 end

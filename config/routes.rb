@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   devise_for :users
   resources :authentications
   resources :devices
+  resources :orders, only: [:index, :new]
 
   get 'admin' => 'control_panel#index', :as => :admin
   resource :control_panel, only: [:index, :new, :create, :destroy]

@@ -4,7 +4,7 @@
   <div class="form-inputs">
     <%= f.input :name %>
     <%= f.input :description %>
-    <%= f.input :items %>
+    <%= f.input :items, collection: @items, as: :check_boxes  %>
     <%= f.association :user %>
   </div>
 
@@ -12,3 +12,5 @@
     <%= f.button :submit %>
   </div>
 <% end %>
+
+<%= @items %>
