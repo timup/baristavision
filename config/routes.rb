@@ -18,4 +18,7 @@ Rails.application.routes.draw do
 
   mount Sidekiq::Web, at: '/sidekiq'
 
+  controller :webhooks do
+    post 'webhooks/test' => :test
+  end
 end
