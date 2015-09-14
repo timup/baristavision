@@ -1,3 +1,5 @@
+require "sidekiq/web"
+
 Rails.application.routes.draw do
 
   get "/auth/:provider/callback" => "authentications#create"
@@ -13,5 +15,7 @@ Rails.application.routes.draw do
   get 'test' => 'test#index'
 
   root 'control_panel#index'
+
+  mount Sidekiq::Web, at: '/sidekiq'
 
 end
