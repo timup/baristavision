@@ -13,6 +13,7 @@ class DevicesController < ApplicationController
   # GET /devices/new
   def new
     @device = Device.new
+    @items = Item.where(user_id: current_user.id).map{|item| item.name}
   end
 
   # GET /devices/1/edit
