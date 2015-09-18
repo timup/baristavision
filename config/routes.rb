@@ -23,7 +23,7 @@ Rails.application.routes.draw do
       post 'webhooks/test' => :test
     end
     controller :clover do
-      post 'webhooks/clover' => :test
+      post 'webhooks/clover' => :receive
       get 'webhooks/clover/test' => :test
     end
     controller :square do
