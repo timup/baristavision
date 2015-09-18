@@ -1,0 +1,2 @@
+class Webhooks::StripeService
+end

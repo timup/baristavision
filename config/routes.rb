@@ -18,7 +18,17 @@ Rails.application.routes.draw do
 
   mount Sidekiq::Web, at: '/sidekiq'
 
-  controller :webhooks do
-    post 'webhooks/test' => :test
+  scope module: 'webhooks' do
+    controller :main do
+      post 'webhooks/test' => :test
+    end
+    controller :clover do
+      post 'webhooks/clover' => :test
+      get 'webhooks/clover/test' => :test
+    end
+    controller :square do
+      get 'webhooks/square/test' => :test
+    end
   end
+
 end
